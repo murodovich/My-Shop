@@ -21,11 +21,6 @@ namespace Application.Services.Products
 
         public async ValueTask<Product> AddAsync(CreateProductDto createProductDto)
         {
-            //Product? productResule = await _context.Products.FirstOrDefaultAsync(x => x.SortNumber == request.SortNumber, cancellationToken);
-
-            //if (productResule != null)
-            //    return 0;
-
             var products =  _repository.GetAllAsync();
             Product productresult =  products.FirstOrDefault(x => x.SortNumber == createProductDto.SortNumber);
             if (productresult != null)
@@ -76,18 +71,6 @@ namespace Application.Services.Products
 
         public async ValueTask<Product> UpdateAsync(ModificationProductDto modificationProduct, int id)
         {
-            //string filepage = await _fileService.UploadImageAsync(modificationProduct.Videopath);
-            //var result = await _repository.GetByIdAsync(id);
-
-            //result.Name = modificationProduct.Name;
-            //result.Description = modificationProduct.Description;
-            //result.SortNumber = modificationProduct.SortNumber;
-
-
-            //var product = await _repository.UpdateAsync(result);
-
-            //return product;
-
             var product = await _repository.GetByIdAsync(id);
 
             if (product == null)
