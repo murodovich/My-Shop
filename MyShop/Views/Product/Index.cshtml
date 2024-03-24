@@ -1,4 +1,5 @@
 ﻿@using Domain.Entities
+@using MyShop.Models
 @model IEnumerable<Product>
 
 @{
@@ -30,7 +31,7 @@
     <div class="row row-cols-1 row-cols-md-3 g-4 justify-content-center">
         @foreach (var product in Model)
         {
-            var path =  product.VideoPath.Replace("\\", "/");
+            var path = "/media/videos/" +  product.VideoPath;
 
             <div class="card mx-2" style="width: 18rem;">
                 <video  controls>
