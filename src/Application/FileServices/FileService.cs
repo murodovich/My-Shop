@@ -1,6 +1,4 @@
-﻿using Application.Common.Halpers;
-using Domain.Exceptions.Videos;
-using Microsoft.AspNetCore.Hosting;
+﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 
 namespace Application.FileServices
@@ -29,16 +27,6 @@ namespace Application.FileServices
         public async ValueTask<string> UploadImageAsync(IFormFile file)
         {
 
-            //string newImageName = MediaHelper.MakeImageName(file.FileName.ToLower());
-            //string subPath = Path.Combine(MEDIA, VIDEOS, newImageName);
-            //string path = Path.Combine(ROOTPATH, subPath);
-
-            //using (var stream = new FileStream(path, FileMode.Create))
-            //{
-            //    await file.CopyToAsync(stream);
-            //    return subPath;
-            //}
-
             string filePath = "";
             string fileName = "";
 
@@ -46,9 +34,9 @@ namespace Application.FileServices
             try
             {
                 fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
-                filePath = Path.Combine(_webHostEnvironment.WebRootPath, "media","videos", fileName);
+                filePath = Path.Combine(_webHostEnvironment.WebRootPath, "media", "videos", fileName);
 
-               
+
 
                 using (var stream = new FileStream(filePath, FileMode.Create))
                 {
