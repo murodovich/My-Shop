@@ -4,8 +4,6 @@ using Application.FileServices;
 using Application.Services.Contracts.Products;
 using Domain.Entities;
 using Domain.Exceptions.Products;
-using Mapster;
-using System.Threading;
 
 namespace Application.Services.Products
 {
@@ -21,8 +19,8 @@ namespace Application.Services.Products
 
         public async ValueTask<Product> AddAsync(CreateProductDto createProductDto)
         {
-            var products =  _repository.GetAllAsync();
-            Product productresult =  products.FirstOrDefault(x => x.SortNumber == createProductDto.SortNumber);
+            var products = _repository.GetAllAsync();
+            Product productresult = products.FirstOrDefault(x => x.SortNumber == createProductDto.SortNumber);
             if (productresult != null)
             {
                 return null;
