@@ -1,0 +1,26 @@
+﻿@using Application.Dtos.Produts
+@using Domain.Entities
+@model Product
+@{
+    var path = @Model.VideoPath.Replace("\\", "/");
+}
+<div class="container mt-5">
+    <div class="row mb-2">
+        <div class="col-md-8">
+            <h1>@Model.Name</h1>
+            <p class="description">@Model.Description</p>
+        </div>
+
+       
+        <div class="col-md-4 text-center">
+            <video width="320" height="400" controls>
+                <source src=@path type="video/mp4">
+                <source src="movie.ogg" type="video/ogg">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+        <div> 
+            <h1>@Model.SortNumber</h1>
+        </div>
+    </div>
+</div>

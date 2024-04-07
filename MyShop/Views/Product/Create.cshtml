@@ -1,0 +1,29 @@
+﻿@using Application.Dtos.Produts
+@model CreateProductDto;
+
+<h1>Add Product</h1>
+
+<form enctype="multipart/form-data">
+    <div class="mb-3">
+        <label asp-for="@Model.Name" class="form-label">Name</label>
+        <input asp-for="@Model.Name" type="text" class="form-control" id="exampleFormControlInput1" placeholder="Enter Name ..." required>
+    </div>
+    
+    <div class="mb-3">
+        <label asp-for="@Model.Description" class="form-label">Description</label>
+        <textarea asp-for="@Model.Description" class="form-control" id="exampleFormControlTextarea1" rows="3" required></textarea>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="@Model.VideoPath" class="form-label">Video</label>
+        <input asp-for="@Model.VideoPath" class="form-control" id="video" required>
+    </div>
+    <div class="mb-3">
+        <label asp-for="@Model.SortNumber" class="form-label">SortNumber</label>
+        <input asp-for="@Model.SortNumber" class="form-control" id="exampleFormControlInput1" placeholder="Enter SortNumber ..." required>
+    </div>
+
+
+    <button class="btn btn-primary mt-1" asp-controller="Product" asp-action="Create" formmethod="post">Save</button>
+
+</form>
