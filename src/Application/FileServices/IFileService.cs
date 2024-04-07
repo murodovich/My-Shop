@@ -4,7 +4,7 @@ namespace Application.FileServices
 {
     public interface IFileService
     {
-        public ValueTask<string> UploadVideoAsync(IFormFile imagepath);
-        public ValueTask<byte[]> GetVideoAsync(string path);
+        ValueTask<string> UploadImageAsync(IFormFile file);
+        ValueTask<byte[]> GetImageAsync(string path);
     }
 }

@@ -49,6 +49,13 @@ namespace Infrastructure.Repositories.Products
             return product;
         }
 
+        public async ValueTask<IQueryable<Product>> Search(string query)
+        {
+            var product = _shopDBContext.products.Where(x => x.Name.Contains(query)
+                    || x.Description.Contains(query));
+            return product;
+        }
+
         public async ValueTask<Product> UpdateAsync(Product entity)
         {
             var product = await _shopDBContext.products.FirstOrDefaultAsync(x => x.Id == entity.Id);

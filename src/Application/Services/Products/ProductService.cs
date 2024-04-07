@@ -17,25 +17,27 @@ namespace Application.Services.Products
             _fileService = fileService;
         }
 
-        public async ValueTask<Product> AddAsync(CreateProductDto userCreationDTO)
+        public async ValueTask<Product> AddAsync(CreateProductDto createProductDto)
         {
-            string filepage = await _fileService.UploadVideoAsync(userCreationDTO.VideoPath);
+            string filepage = await _fileService.UploadImageAsync(createProductDto.VideoPath);
 
             var product =new  Product()
             {
-                Name = userCreationDTO.Name,
-                Description = userCreationDTO.Description,
+                Name = createProductDto.Name,
+                Description = createProductDto.Description,
                 VideoPath = filepage,
-                SortNumber = userCreationDTO.SortNumber,
+                SortNumber = createProductDto.SortNumber,
             };
             var result = await _repository.CreateAsync(product);
 
             return result;
         }
 
-        public ValueTask<Product> DeleteAsync(long id)
+        public async ValueTask<Product> DeleteAsync(int id)
         {
-            throw new NotImplementedException();
+            var product = await _repository.DeleteAsync(id);
+
+            return product;
         }
 
         public async ValueTask<List<Product>> GetAllAsync()
@@ -45,14 +47,27 @@ namespace Application.Services.Products
             return products;
         }
 
-        public ValueTask<Product> GetByIdAsync(long id)
+        public async ValueTask<Product> GetByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            var product = await _repository.GetByIdAsync(id);  
+
+            return product;
         }
 
-        public ValueTask<Product> UpdateAsync(ModificationProductDto userModificationDTO, long id)
+        public async ValueTask<IQueryable<Product>> Search(string query)
         {
-            throw new NotImplementedException();
+            var result = await _repository.Search(query);
+            return result;
+        }
+
+        public async ValueTask<Product> UpdateAsync(ModificationProductDto modificationProduct, int id)
+        {
+            var result = modificationProduct.Adapt<Product>();
+            result.Id = id;
+
+            var product = await _repository.UpdateAsync(result);
+
+            return product;
         }
     }
 }

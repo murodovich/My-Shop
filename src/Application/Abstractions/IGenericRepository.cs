@@ -7,5 +7,6 @@
         public ValueTask<TEntity> GetByIdAsync(int id);
         public ValueTask<TEntity> UpdateAsync(TEntity entity);
         public ValueTask<TEntity> DeleteAsync(int Id);
+        public ValueTask<IQueryable<TEntity>> Search(string query);
     }
 }

@@ -2,12 +2,12 @@
 
 namespace Application.Dtos.Produts
 {
-    public record ModificationProductDto
-    (
-        int id,
-        string Name,
-        string Description,
-        IFormFile VideoPath,
-        int SortNumber
-    );
+    public class ModificationProductDto
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public IFormFile? Videopath { get; set; }
+        public int SortNumber { get; set; }
+    }
 }

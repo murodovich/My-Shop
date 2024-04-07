@@ -1,4 +1,4 @@
-﻿using Application.Common.Halpers;
+﻿using Domain.Exceptions.Videos;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 
@@ -6,35 +6,43 @@ namespace Application.FileServices
 {
     public class FileService : IFileService
     {
-        private readonly IWebHostEnvironment _webHostEnvironment;
-        private readonly string MEDIA = "media";
-        private readonly string IMAGES = "images";
         private readonly string ROOTPATH;
+        private readonly IWebHostEnvironment _webHostEnvironment;
+
         public FileService(IWebHostEnvironment webHostEnvironment)
         {
             _webHostEnvironment = webHostEnvironment;
+            ROOTPATH = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
         }
 
-
-        public async ValueTask<byte[]> GetVideoAsync(string filepath)
+        public async ValueTask<byte[]> GetImageAsync(string fileName)
         {
-            string path = Path.Combine(filepath);
+            string path = Path.Combine(ROOTPATH, fileName);
             byte[] imageBytes = await File.ReadAllBytesAsync(path);
             return imageBytes;
         }
 
-        public async ValueTask<string> UploadVideoAsync(IFormFile imagepath)
+        public async ValueTask<string> UploadImageAsync(IFormFile file)
         {
-            string newImageName = MediaHelper.MakeVideoImageName(imagepath.FileName);
-            string subPath = Path.Combine(MEDIA, IMAGES, newImageName);
+            string filePath = "";
+            string fileName = "";
 
-          
+            try
+            {
+                fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+                filePath = Path.Combine(_webHostEnvironment.WebRootPath, "media","images" ,fileName);
 
-            FileStream fileStream = new FileStream(subPath, FileMode.Create);
-            await imagepath.CopyToAsync(fileStream);
-            fileStream.Close();
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await file.CopyToAsync(stream);
+                }
 
-            return subPath;
+                return "/media/images/" + fileName;
+            }
+            catch (VideoNotValid)
+            {
+                throw new VideoNotValid();
+            }
         }
     }
 }

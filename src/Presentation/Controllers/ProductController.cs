@@ -31,5 +31,29 @@ namespace Presentation.Controllers
 
         }
 
+        [HttpGet]
+        public async ValueTask<IActionResult> GetByIdProduct(int id)
+        {
+            var result = await _productService.GetByIdAsync(id);
+
+            return Ok(result);
+        }
+
+        [HttpPut]
+        public async ValueTask<IActionResult> UpdateProductAsync([FromForm]ModificationProductDto modificationProduct, int id)
+        {
+            var result = await _productService.UpdateAsync(modificationProduct, id);
+
+            return Ok(result);
+        }
+
+        [HttpDelete]
+        public async ValueTask<IActionResult> DeleteProductAsync(int id)
+        {
+            var result =  _productService?.DeleteAsync(id);
+
+            return Ok(result);
+        }
+
     }
 }
