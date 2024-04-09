@@ -28,11 +28,15 @@ namespace Application.Common.Halpers
         {
             return new string[]
             {
-                ".jpg", ".jpeg",
-                ".png",
-                ".bmp",
-                ".svg",
-                ".MP4", ".MOV",
+                ".mp4",
+                ".mkv",
+                ".mov",
+                ".m4v",
+                ".webm",
+                ".avi",
+                ".m4a",
+                ".MP4",
+                ".MOV",
                 ".WMV",
                 ".AVI",
                 ".AVCHD",

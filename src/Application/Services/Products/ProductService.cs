@@ -3,7 +3,9 @@ using Application.Dtos.Produts;
 using Application.FileServices;
 using Application.Services.Contracts.Products;
 using Domain.Entities;
+using Domain.Exceptions.Products;
 using Mapster;
+using System.Threading;
 
 namespace Application.Services.Products
 {
@@ -19,9 +21,21 @@ namespace Application.Services.Products
 
         public async ValueTask<Product> AddAsync(CreateProductDto createProductDto)
         {
+            //Product? productResule = await _context.Products.FirstOrDefaultAsync(x => x.SortNumber == request.SortNumber, cancellationToken);
+
+            //if (productResule != null)
+            //    return 0;
+
+            var products =  _repository.GetAllAsync();
+            Product productresult =  products.FirstOrDefault(x => x.SortNumber == createProductDto.SortNumber);
+            if (productresult != null)
+            {
+                return null;
+            }
+
             string filepage = await _fileService.UploadImageAsync(createProductDto.VideoPath);
 
-            var product =new  Product()
+            var product = new Product()
             {
                 Name = createProductDto.Name,
                 Description = createProductDto.Description,
@@ -49,7 +63,7 @@ namespace Application.Services.Products
 
         public async ValueTask<Product> GetByIdAsync(int id)
         {
-            var product = await _repository.GetByIdAsync(id);  
+            var product = await _repository.GetByIdAsync(id);
 
             return product;
         }
@@ -62,11 +76,42 @@ namespace Application.Services.Products
 
         public async ValueTask<Product> UpdateAsync(ModificationProductDto modificationProduct, int id)
         {
-            var result = modificationProduct.Adapt<Product>();
-            result.Id = id;
+            //string filepage = await _fileService.UploadImageAsync(modificationProduct.Videopath);
+            //var result = await _repository.GetByIdAsync(id);
 
-            var product = await _repository.UpdateAsync(result);
+            //result.Name = modificationProduct.Name;
+            //result.Description = modificationProduct.Description;
+            //result.SortNumber = modificationProduct.SortNumber;
 
+
+            //var product = await _repository.UpdateAsync(result);
+
+            //return product;
+
+            var product = await _repository.GetByIdAsync(id);
+
+            if (product == null)
+                throw new ProductNotFound();
+
+            if (modificationProduct.Name != null)
+            {
+                product.Name = modificationProduct.Name;
+            }
+            if (modificationProduct.Description != null)
+            {
+                product.Description = modificationProduct.Description;
+            }
+            if (modificationProduct.SortNumber != 0)
+            {
+                product.SortNumber = modificationProduct.SortNumber;
+            }
+            if (modificationProduct.Videopath != null)
+            {
+                await _fileService.DeletFileAsync(product.VideoPath);
+                product.VideoPath = await _fileService.UploadImageAsync(modificationProduct.Videopath);
+            }
+
+            await _repository.UpdateAsync(product);
             return product;
         }
     }
