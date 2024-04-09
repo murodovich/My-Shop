@@ -1,4 +1,5 @@
 ﻿using Application.Abstractions.Products;
+using Application.Dtos.Produts;
 using Domain.Entities;
 using Domain.Exceptions.Products;
 using Infrastructure.Data;
@@ -59,10 +60,12 @@ namespace Infrastructure.Repositories.Products
         public async ValueTask<Product> UpdateAsync(Product entity)
         {
             var product = await _shopDBContext.products.FirstOrDefaultAsync(x => x.Id == entity.Id);
-            if (product == null)
-                throw new ProductNotFound();
 
+            _shopDBContext.products.Update(product);
+            await _shopDBContext.SaveChangesAsync();
             return product;
         }
+
+        
     }
 }
