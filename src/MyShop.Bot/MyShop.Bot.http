@@ -1,0 +1,6 @@
+@MyShop.Bot_HostAddress = http://localhost:5217
+
+GET {{MyShop.Bot_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
