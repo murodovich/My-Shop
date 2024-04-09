@@ -1,9 +1,9 @@
 # My Shop
-##MyShop -> MVC 
+## MyShop -> MVC 
 
-##Presentation -> Api CRUD
+## Presentation -> Api CRUD
 
-##MYShopConsole.Bot -> Telegram bot 
+## MYShopConsole.Bot -> Telegram bot 
 
 
 
