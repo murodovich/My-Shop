@@ -67,21 +67,11 @@ namespace MyShop.Controllers
 
         }
 
+        [HttpPost]
         public async ValueTask<IActionResult> Update(ModificationProductDto product, int id)
         {
-            if (id != product.Id)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                var newProduct = await _productService.UpdateAsync(product, id);
-                return RedirectToAction(nameof(Index));
-            }
-
-            return View(product);
-
+              var newProduct = await _productService.UpdateAsync(product, id);
+              return RedirectToAction(nameof(Index));   
         }
 
 
